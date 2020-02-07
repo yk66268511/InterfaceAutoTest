@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.course.model">
+    <!--获取登陆接口case-->
+    <select id="loginCase" parameterType="Integer" resultType="com.course.model.LoginCase">
+        select * from login_case where id=#{id};
+    </select>
+
+    <!--添加用户接口case-->
+    <select id="addUserCase" parameterType="Integer" resultType="com.course.model.AddUserCase">
+        select * from add_user_case where id=#{id};
+    </select>
+
+    <!--获取用户信息接口case-->
+    <select id="getUserInfoCase" parameterType="Integer" resultType="com.course.model.GetUserInfoCase">
+        select * from get_user_info_case where id=#{id}
+    </select>
+
+    <!--获取用户列表接口case-->
+    <select id="getUserListCase" parameterType="Integer" resultType="com.course.model.GetUserListCase">
+        select * from get_user_list_case where id=#{id};
+    </select>
+
+    <!--更新用户信息接口case-->
+    <select id="updateUserInfoCase" parameterType="Integer" resultType="com.course.model.UpdateUserInfoCase">
+        select * from update_user_info_case where id=#{id};
+    </select>
+
+    <!--更新用户接口测试-->
+    <select id="addUserTest" parameterType="com.course.model.AddUserCase" resultType="com.course.model.User">
+        select * from user
+        where userName = #{userName};
+    </select>
+
+    <!--获取用户信息接口测试-->
+    <select id="getUserInfo" parameterType="com.course.model.GetUserInfoCase" resultType="com.course.model.User">
+        select * from user where id = #{userId};
+    </select>
+
+    <!--获取用户列表接口测试-->
+    <select id="getUserList" parameterType="com.course.model.GetUserListCase" resultType="com.course.model.User">
+        select * from user
+        <trim prefix="where" prefixOverrides="and">
+            <if test="null != userName and '' != userName">
+                and userName = #{userName}
+            </if>
+            <if test="null != sex and '' != sex">
+                and sex = #{sex}
+            </if>
+            <if test="null != age and '' != age">
+                and age = #{age}
+            </if>
+        </trim>
+        ;
+    </select>
+
+    <!--获取countLoginCase的数目-->
+    <select id="countLoginCase" resultType="Integer">
+        select count(*) from login_case;
+    </select>
+
+</mapper>

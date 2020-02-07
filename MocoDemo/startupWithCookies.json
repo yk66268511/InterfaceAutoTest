@@ -1,0 +1,38 @@
+[
+  {
+    "description":"这是一个带cookies信息的get请求",
+    "request":{
+      "uri":"/GetCookies",
+      "method":"get"
+    },
+    "response":{
+      "cookies":{
+        "login":"true",
+        "uuid": "123"
+      },
+      "text":"获得cookies信息成功"
+    }
+  },
+  {
+    "description": "这是一个带cookies信息的post请求",
+    "request": {
+      "uri": "/postWithCookies",
+      "method": "post",
+      "cookies": {
+        "login": "true",
+        "uuid": "123"
+      },
+      "json": {
+        "name": "yang",
+        "id": "310"
+      }
+    },
+    "response": {
+      "status": 200,
+      "json": {
+        "hobby": "PC",
+        "sex": "man"
+      }
+    }
+  }
+]
