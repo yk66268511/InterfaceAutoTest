@@ -72,7 +72,7 @@ public class LoginTest {
 
         //验证结果
         Assert.assertEquals(loginCase.getExpected(),result);
-        Assertion.verifyEquals(loginCase.getExpected(),result);
+        //Assertion.verifyEquals(loginCase.getExpected(),result);
     }
 
     private String getResult(LoginCase loginCase) throws IOException {
