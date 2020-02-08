@@ -3,7 +3,6 @@ package com.course.cases;
 import com.course.config.TestConfig;
 import com.course.model.InterfaceName;
 import com.course.model.LoginCase;
-import com.course.utils.Assertion;
 import com.course.utils.ConfigFile;
 import com.course.utils.DatabaseUtil;
 import org.apache.http.HttpResponse;
@@ -59,11 +58,8 @@ public class LoginTest {
         Assert.assertEquals(loginCase.getExpected(),result);
     }
 
-    @Test(groups = "loginFalse",description = "用户登录失败接口测试")
-    public void loginFalse() throws IOException{
-        SqlSession sqlSession = DatabaseUtil.getSqlSession();
-        LoginCase loginCase = sqlSession.selectOne("loginCase",3);
-
+    @Test(groups = "loginFalse",description = "用户登录失败接口测试",dataProvider = "data")
+    public void loginFalse(LoginCase loginCase) throws IOException{
         System.out.println(loginCase.toString());
         System.out.println(TestConfig.loginUrl);
 
@@ -72,7 +68,6 @@ public class LoginTest {
 
         //验证结果
         Assert.assertEquals(loginCase.getExpected(),result);
-        //Assertion.verifyEquals(loginCase.getExpected(),result);
     }
 
     private String getResult(LoginCase loginCase) throws IOException {

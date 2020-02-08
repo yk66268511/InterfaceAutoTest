@@ -9,19 +9,19 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 import org.apache.ibatis.session.SqlSession;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
 public class AddUserTest {
 
-    @Test(groups = "loginTrue",description = "添加用户接口测试")
-    public void addUser() throws IOException, InterruptedException {
+    @Test(groups = "loginTrue",description = "添加用户接口测试",dataProvider = "data")
+    public void addUser(AddUserCase addUserCase) throws IOException {
         SqlSession sqlSession = DatabaseUtil.getSqlSession();
-        AddUserCase addUserCase = sqlSession.selectOne("addUserCase",10);
+
         System.out.println(addUserCase.toString());
         System.out.println(TestConfig.addUserUrl);
 
@@ -34,18 +34,30 @@ public class AddUserTest {
         Assert.assertEquals(addUserCase.getExpected(),result);
     }
 
+    @DataProvider(name = "data")
+    public Object[] ProviderData() throws IOException {
+        SqlSession sqlSession = DatabaseUtil.getSqlSession();
+
+        Object[] objects = new Object[2];
+        for (int i = 10;i<=11;i++){
+            objects[i-10] = sqlSession.selectOne("addUserCase",i);
+        }
+
+        return objects;
+    }
+
     private String getResult(AddUserCase addUserCase) throws IOException {
         HttpPost post = new HttpPost(TestConfig.addUserUrl);
-        JSONObject parm = new JSONObject();
-        parm.put("id",addUserCase.getId());
-        parm.put("userName",addUserCase.getUserName());
-        parm.put("password",addUserCase.getPassword());
-        parm.put("age",addUserCase.getAge());
-        parm.put("sex",addUserCase.getSex());
-        parm.put("permission",addUserCase.getPermission());
-        parm.put("isDelete",addUserCase.getIsDelete());
+        JSONObject param = new JSONObject();
+        param.put("id",addUserCase.getId());
+        param.put("userName",addUserCase.getUserName());
+        param.put("password",addUserCase.getPassword());
+        param.put("age",addUserCase.getAge());
+        param.put("sex",addUserCase.getSex());
+        param.put("permission",addUserCase.getPermission());
+        param.put("isDelete",addUserCase.getIsDelete());
         post.setHeader("content-type","application/json");
-        StringEntity entity = new StringEntity(parm.toString(),"utf-8");
+        StringEntity entity = new StringEntity(param.toString(),"utf-8");
         post.setEntity(entity);
 
         TestConfig.client.setCookieStore(TestConfig.store);

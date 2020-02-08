@@ -14,19 +14,18 @@ import org.apache.ibatis.session.SqlSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-@Test(groups = "LoginTrue",description = "获取用户信息接口测试")
-public class GetUserInfoTest {
 
-    public void getUserInfo() throws IOException {
+public class GetUserInfoTest {
+    @Test(groups = "loginTrue",description = "获取用户信息接口测试",dataProvider = "data")
+    public void getUserInfo(GetUserInfoCase getUserInfoCase) throws IOException {
         SqlSession sqlSession = DatabaseUtil.getSqlSession();
-        GetUserInfoCase getUserInfoCase = sqlSession.selectOne("getUserInfoCase",1);
         System.out.println(getUserInfoCase.toString());
         System.out.println(TestConfig.getUserInfoUrl);
 
@@ -44,7 +43,16 @@ public class GetUserInfoTest {
         System.out.println("实际修正"+jsonArray1.toString());
 
         Assert.assertEquals(jsonArray.toString(),jsonArray1.toString());
+    }
 
+    @DataProvider(name = "data")
+    public Object[] ProviderData() throws IOException {
+        SqlSession sqlSession = DatabaseUtil.getSqlSession();
+        Object[] objects = new Object[2];
+        for (int i=1;i<=2;i++){
+            objects[i-1] = sqlSession.selectOne("getUserInfoCase",i);
+        }
+        return objects;
     }
 
     private JSONArray getResultJson(GetUserInfoCase getUserInfoCase) throws IOException {
