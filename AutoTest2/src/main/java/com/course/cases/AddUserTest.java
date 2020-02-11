@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class AddUserTest {
 
-    @Test(groups = "loginTrue",description = "添加用户接口测试",dataProvider = "data")
+    @Test(groups = "loginTrue",description = "添加用户接口测试",dataProvider = "dat")
     public void addUser(AddUserCase addUserCase) throws IOException {
         SqlSession sqlSession = DatabaseUtil.getSqlSession();
 
@@ -34,7 +34,7 @@ public class AddUserTest {
         Assert.assertEquals(addUserCase.getExpected(),result);
     }
 
-    @DataProvider(name = "data")
+    @DataProvider(name = "dat")
     public Object[] ProviderData() throws IOException {
         SqlSession sqlSession = DatabaseUtil.getSqlSession();
 
