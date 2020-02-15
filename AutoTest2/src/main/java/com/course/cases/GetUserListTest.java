@@ -16,6 +16,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class GetUserListTest {
@@ -68,9 +69,7 @@ public class GetUserListTest {
         TestConfig.client.setCookieStore(TestConfig.store);
         HttpResponse response = TestConfig.client.execute(post);
         String result = EntityUtils.toString(response.getEntity(),"utf-8");
-
-        JSONArray resultJsonArray = new JSONArray(result);
-
-        return resultJsonArray;
+        JSONArray jsonArray = new JSONArray(result);
+        return jsonArray;
     }
 }

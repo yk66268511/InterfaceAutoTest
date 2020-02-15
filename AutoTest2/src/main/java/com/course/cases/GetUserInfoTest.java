@@ -35,14 +35,14 @@ public class GetUserInfoTest {
 
         //发送请求，实际结果
         JSONArray resultJson = getResultJson(getUserInfoCase);
-        JSONArray jsonArray1 = new JSONArray(resultJson.getString(0));
+        //JSONArray jsonArray1 = new JSONArray(resultJson.getString(0));
 
         //验证结果
         System.out.println("预期"+jsonArray.toString());
         System.out.println("实际"+resultJson.toString());
-        System.out.println("实际修正"+jsonArray1.toString());
+        //System.out.println("实际修正"+jsonArray1.toString());
 
-        Assert.assertEquals(jsonArray.toString(),jsonArray1.toString());
+        Assert.assertEquals(jsonArray.toString(),resultJson.toString());
     }
 
     @DataProvider(name = "data")
@@ -66,8 +66,9 @@ public class GetUserInfoTest {
 
         HttpResponse response = TestConfig.client.execute(post);
         String result = EntityUtils.toString(response.getEntity(),"utf-8");
-        List resultList = Arrays.asList(result);
-        JSONArray jsonArray = new JSONArray(resultList);
+        //List resultList = Arrays.asList(result);
+        System.out.println(result);
+        JSONArray jsonArray = new JSONArray(result);
 
         return jsonArray;
     }
